@@ -23,3 +23,16 @@ npm run build  // 编译
 ## 注意事项
 
 由于使用mux.js对 ts 视频进行转码处理播放, 所以播放.ts视频文件是可能会出现爆内存的状况.
+
+# 感谢支持
+
+[DPlayer](https://github.com/MoePlayer/DPlayer)
+
+[flv.js](https://github.com/bilibili/flv.js)
+
+[mux.js](https://github.com/videojs/mux.js)
+
+
+# License
+
+MIT License
