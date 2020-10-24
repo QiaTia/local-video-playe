@@ -1,6 +1,6 @@
 # Local Video Player
 
-  http://a-b.icu
+  http://qiatia.gitee.io/local-video-player/
 
 ## 功能
 
