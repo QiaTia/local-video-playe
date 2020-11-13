@@ -25,6 +25,7 @@ const typeList = {
   "ogm": '',
   "webm": "",
   "wmv": '',
+  "mkv": '',
   "mov": '',
   "mpeg": '',
   "m4v": '',
