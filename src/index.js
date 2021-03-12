@@ -12,6 +12,8 @@ import flvjs from 'flv.js/dist/flv.min'
 import muxjs from 'mux.js'
 import DPlayer from 'dplayer'
 
+const list = []
+
 let latestURL = ''
 
 const videoDom = document.getElementById('player')
@@ -35,17 +37,48 @@ const typeList = {
 const dp = new DPlayer({ container: videoDom, video: {}, screenshot: true, autoplay: true })
 dp.on('screenshot', ()=> Notify("截图功能会稍微有点卡顿, 请稍等"))
 
+
 function handlePlayer(url, type = "") {
   latestURL = url
+  localStorage.setItem('playbackRate', dp.video.playbackRate)
   dp.switchVideo({ url, type })
   videoDom.style.display = 'block'
   document.getElementsByClassName('container')[0].className = 'container is_play'
+  dp.video.playbackRate = localStorage.getItem('playbackRate')
+}
+/**
+ * @description 列表添加数据
+ * @param { Array } files
+ * @returns 
+ */
+function listPush(files) {
+  let cIndex = 0
+  if(list.length == 0) list.push(...files)
+  else [...files].map((t, i)=> {
+    const currentIndex = list.findIndex(({size, name})=> t.size == size && t.name == name)
+    if(currentIndex == -1) list.push(t)
+    else if(!i) cIndex = currentIndex
+  })
+  listRender(cIndex)
+}
+
+function playIndex(index) {
+  // 
+  const file = list[index]
+  upload({target:{files:[file]}})
+}
+
+function listRender(index = 0) {
+  console.log(index)
+  const $list = document.getElementsByClassName('list')[0]
+  $list.innerHTML = list.map(({ name, size }, i)=>`<li class="${i == index?'active':'' }"><h3>${name}</h3><p>${ size }</p><button onclick="hanldePlayIndex(${i})" class="btn">player</button></li>`).join('')
 }
 
 function upload({ target, dataTransfer }) {
+  listPush(target.files || dataTransfer.files || [])
   URL.revokeObjectURL(latestURL)
   const t = Notify.load("视频文件解析中~, 请稍等~", '')
-  const [onError, onSuccess] = [e =>{
+  const [ onError, onSuccess ] = [e =>{
     t.hide()
     Notify.error(e)
     target.value = ''
@@ -76,6 +109,7 @@ function readerFile(file) {
     fileReader.onerror = reject
   })
 }
+
 function transferFormat (data, onSuccess) {
   // 将源数据从ArrayBuffer格式保存为可操作的Uint8Array格式
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer
@@ -156,6 +190,7 @@ function prepareSourceBuffer (bytes) {
 
 ((w)=>{
   w.$upload = upload
+  w.hanldePlayIndex = playIndex
   w.flvjs = flvjs
   const current = w.document.body
   // 拖拽进入
