@@ -1,16 +1,17 @@
 {
-  "name": "tia-player",
-  "version": "19.7.8",
-  "description": "tia-music-palyer",
-  "main": "dist/tia-player.js",
+  "name": "local-video-player",
+  "version": "21.03.12",
+  "description": "local-video-player",
+  "main": "src/index.js",
   "scripts": {
     "serve": "webpack-dev-server --mode=development --config webpack.config",
-    "build": "webpack --mode=production -p --config webpack.config && node gzip.dist",
-    "build-ngz": "webpack --mode=production -p --config webpack.config"
+    "build-gz": "webpack --mode=production -p --config webpack.config && node gzip.dist",
+    "build": "webpack --mode=production -p --config webpack.config"
   },
   "keywords": [
-    "music",
-    "tiaplayer"
+    "video",
+    "video-player",
+    "local-video-player"
   ],
   "author": "QiaTia",
   "license": "ISC",
