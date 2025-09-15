@@ -18,8 +18,8 @@ fs.createReadStream('./index.html')
   .pipe(fs.createWriteStream('./dist/index.html'))
   .on('finish', () => { //监听状态
     // console.log("end")
-    gzipFile('./dist/index.js')
-    gzipFile('./dist/index.html')
+    // gzipFile('./dist/index.js')
+    // gzipFile('./dist/index.html')
   })
 
 
